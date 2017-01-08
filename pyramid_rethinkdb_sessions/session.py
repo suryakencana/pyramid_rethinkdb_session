@@ -283,7 +283,7 @@ class RethinkDBSession(object):
             'expired': timeout,
             'payload': r.binary(self.to_r()),
         }
-        results = r.table(R_TABLE).insert(session_dict).run(self.conn)
+        results = r.table(R_TABLE).get(session_id).replace(session_dict).run(self.conn)
 
         if results['errors'] > 0:
             raise KeyError(u'Session ID (%s) conflicts with an existing session' % session_id)
