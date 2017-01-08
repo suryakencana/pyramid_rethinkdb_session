@@ -138,7 +138,7 @@ class RethinkDBSession(object):
         # session with a new session_id.
 
     # dict modifying methods decorated with @persist
-     @persist
+    @persist
     def __delitem__(self, key):
         del self.managed_dict[key]
 
