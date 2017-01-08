@@ -205,7 +205,7 @@ def refresh(wrapped):
     """
     def wrapped_refresh(session, *arg, **kw):
         result = wrapped(session, *arg, **kw)
-        session.expire(session.session_id)
+        session.expire(session.session_id, session.timeout)
         return result
 
     return wrapped_refresh
