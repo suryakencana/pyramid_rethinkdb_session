@@ -1,0 +1,2 @@
+People who have kindly contributed to pyramid_rethinkdb_sessions:
+
