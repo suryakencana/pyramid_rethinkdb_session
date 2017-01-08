@@ -205,6 +205,18 @@ def refresh(wrapped):
     """
     def wrapped_refresh(session, *arg, **kw):
         result = wrapped(session, *arg, **kw)
+        # session.expire(session.session_id, session.timeout)
+        return result
+
+    return wrapped_refresh
+
+
+def persist(wrapped):
+    """
+    Decorator to reset the expire time for this session's key in RethinkDB.
+    """
+    def wrapped_refresh(session, *arg, **kw):
+        result = wrapped(session, *arg, **kw)
         session.expire(session.session_id, session.timeout)
         return result
 

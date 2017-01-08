@@ -32,7 +32,7 @@ from pyramid.interfaces import ISession
 from zope.interface import implementer
 
 from .compat import cPickle, text_type
-from .util import refresh, R_TABLE
+from .util import refresh, R_TABLE, persist
 
 import rethinkdb as r
 
@@ -138,31 +138,31 @@ class RethinkDBSession(object):
         # session with a new session_id.
 
     # dict modifying methods decorated with @persist
-    @refresh
+     @persist
     def __delitem__(self, key):
         del self.managed_dict[key]
 
-    @refresh
+    @persist
     def __setitem__(self, key, value):
         self.managed_dict[key] = value
 
-    @refresh
+    @persist
     def setdefault(self, key, default=None):
         return self.managed_dict.setdefault(key, default)
 
-    @refresh
+    @persist
     def clear(self):
         return self.managed_dict.clear()
 
-    @refresh
+    @persist
     def pop(self, key, default=None):
         return self.managed_dict.pop(key, default)
 
-    @refresh
+    @persist
     def update(self, other):
         return self.managed_dict.update(other)
 
-    @refresh
+    @persist
     def popitem(self):
         return self.managed_dict.popitem()
 
@@ -223,7 +223,7 @@ class RethinkDBSession(object):
             keys = self.managed_dict.keys()
         return keys
 
-    @refresh
+    @persist
     def changed(self):
         """ Persist all the data that needs to be persisted for this session
         immediately with ``@persist``.
