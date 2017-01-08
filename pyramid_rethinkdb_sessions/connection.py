@@ -25,6 +25,9 @@
 
 from .util import parse_url, R_DB, R_TABLE
 import rethinkdb as r
+import logging
+
+LOG = logging.getLogger(__name__)
 
 
 def get_default_connection(request,
@@ -45,6 +48,7 @@ def get_default_connection(request,
 
         rethink_options.update(parse_url(url))
 
+    LOG.debug(rethink_options)
     conn = r.connect(**rethink_options)
 
     if rethink_options.get('db', R_DB) not in r.db_list().run(conn):
@@ -53,6 +57,6 @@ def get_default_connection(request,
     if R_TABLE not in r.table_list().run(conn):
         r.table_create(R_TABLE).run(conn)
 
-    setattr(request.registry, '_redis_sessions', conn)
+    setattr(request.registry, '_r_conn', conn)
 
     return conn

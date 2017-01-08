@@ -23,6 +23,7 @@
  # __init__.py
 """
 import functools
+import logging
 
 from pyramid.session import (
     signed_deserialize,
@@ -33,6 +34,9 @@ from .connection import get_default_connection
 from pyramid_rethinkdb_sessions.session import RethinkDBSession
 from .util import R_TABLE, get_unique_session_id, _parse_settings, _generate_session_id
 import rethinkdb as r
+
+LOG = logging.getLogger(__name__)
+
 
 def includeme(config):
     """
@@ -72,6 +76,7 @@ def session_factory_from_settings(settings):
     A dict of Pyramid application settings
     """
     options = _parse_settings(settings)
+    LOG.debug(options)
     return RethinkSessionFactory(**options)
 
 
