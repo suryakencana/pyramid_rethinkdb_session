@@ -213,8 +213,7 @@ def RethinkSessionFactory(
             port=port,
             db=db,
             user=user,
-            password=password,
-            ssl=ssl
+            password=password
         )
 
         conn = get_default_connection(request, url=url, **rethinkdb_options)
